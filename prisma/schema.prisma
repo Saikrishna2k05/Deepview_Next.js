@@ -24,6 +24,7 @@ model User{
   bio String?
   accounts      Account[]
   sessions      Session[]
+  blogs       Blogs[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -66,4 +67,17 @@ model VerificationToken {
   expires    DateTime
  
   @@id([identifier, token])
+}
+
+model Blogs{
+  id Int @default(autoincrement()) @id
+  title String
+  subtitle String
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+  description String
+  category String
+  thumbnail String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
