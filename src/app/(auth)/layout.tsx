@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "../../components/layout/Navbar";
+import "../globals.css";
+import AuthNavbar from "../../../components/AuthNavbar";
+import SessionWrapper from "components/SessionWrapper";
+import TanstackProvider from "components/TanstackProvider";
 import { Toaster } from 'react-hot-toast';
 
 
@@ -27,8 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}>
-        <Toaster 
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-black`}>
+      <SessionWrapper>
+        <TanstackProvider>
+                          <Toaster 
         position="bottom-right"
         toastOptions={{
           style: {
@@ -39,11 +43,19 @@ export default function RootLayout({
           },
         }}
       />
-        <div className='bg-black'>
-          <Navbar/>
+      <div className="flex flex-col min-h-screen">
+        <div className="sticky top-0 z-50 bg-black/60 backdrop-blur-md">
+          <AuthNavbar />
         </div>
+
+        <main className="flex-1">
           {children}
-      </body>
+        </main>
+      </div>
+      </TanstackProvider>
+      </SessionWrapper>
+    </body>
+
     </html>
   );
 }

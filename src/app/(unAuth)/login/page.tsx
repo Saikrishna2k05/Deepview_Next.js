@@ -1,7 +1,7 @@
 'use client';
 import React from 'react'
-import GoogleSignin from '../../../components/GoogleSignin'
-import { auth } from '../auth'
+import GoogleSignin from '../../../../components/GoogleSignin'
+import { auth } from '../../auth'
 import { log } from 'console';
 import { signOut } from '@/app/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -41,8 +41,8 @@ const Login = () => {
       return;
     }
 
-    toast.success('Login successful');
     router.push('/blogs');
+    toast.success('Login successful');
   }
 
   return (

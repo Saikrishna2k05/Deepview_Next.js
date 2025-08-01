@@ -26,7 +26,7 @@ export default function Home() {
             </Link>
         </div>
       </div>
-      <Image src="/telecommuting-illustration.png" alt="man thinking" width={500} height={100} className="mr-8"></Image>
+      <Image src="/telecommuting-illustration.png" alt="man thinking" width={500} height={100} className="mr-8" priority></Image>
    </div>
   );
 }
