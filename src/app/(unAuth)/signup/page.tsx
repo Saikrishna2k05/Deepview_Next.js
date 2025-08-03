@@ -29,8 +29,8 @@ const Signup = () => {
           email: data.email,
           password: data.password,
         });
-    router.push('/blogs');
-    toast.success('Login successful!');
+        toast.success('Login successful!');
+        router.push('/blogs');
   } catch (err: any) {
           if (err.response && err.response.data.message) {
       toast.error(`Signup failed, ${err.response.data.message}`);

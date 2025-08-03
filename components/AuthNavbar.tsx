@@ -5,8 +5,9 @@ import { FiEdit } from "react-icons/fi";
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import ProfileDropdown from './ProfileDropdown';
 
-const AuthNavbar = () => {
+const AuthNavbar = ({session}:{session:any}) => {
   const pathname=usePathname();
   const logoutHandler=async()=>{
     await signOut({redirect:true, callbackUrl:'/'});
@@ -23,7 +24,7 @@ const AuthNavbar = () => {
                   <FiEdit/>
                   <span>Write</span>
                 </Link>
-                {/* <ProfileDropdown/> */}
+                <ProfileDropdown user={session?.user}/>
                 <button
           className='px-4 py-2 mr-4 rounded-2xl transition-all duration-200 bg-white text-black hover:bg-gray-200 cursor-pointer'
           onClick={logoutHandler}

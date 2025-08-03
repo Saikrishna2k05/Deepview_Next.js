@@ -40,9 +40,8 @@ const Login = () => {
       toast.error('Invalid email or Password');
       return;
     }
-
+    // toast.success("Login successfull")
     router.push('/blogs');
-    toast.success('Login successful');
   }
 
   return (

@@ -5,6 +5,7 @@ export type BlogType= {
   thumbnail:string,
   description:string,
   author:{
+    id: string,
     name:string,
     image:string
   },

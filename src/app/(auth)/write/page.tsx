@@ -5,27 +5,26 @@ import ThumbnailUpload from '../../../../components/ThumbnailUpload';
 import toast  from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { BlogType } from 'types/BlogType';
+import {EditorShimmer} from '../../../../components/EditorShimmer'
+import { useCreatePosts } from 'components/ReactQueries';
+import { CreateBlogType } from 'types/CreateBlogType';
 
-type WriteBlogType={
-  title: string
-  subtitle: string
-  description: string
-  thumbnail: string | null 
-  category: string
-}
+        const JoditEditor = dynamic(() => import('jodit-react'), {
+        ssr: false,
+        loading: () => <EditorShimmer />,
+      });
 
 
 const Write = () => {
-    const JoditEditor = dynamic(() => import('jodit-react'), {
-  ssr: false,
-});
-
+    
+      const { mutate, isPending } = useCreatePosts();
+   
   const editor = useRef(null);
   const defaultValues = {
   title: '',
   subtitle: '',
   description: '',
-  thumbnail: null,
+  thumbnail: '',
   category: '',
 };
 
@@ -35,11 +34,11 @@ const Write = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<WriteBlogType>({defaultValues});
+  } = useForm<CreateBlogType>({defaultValues});
 
-  const onSubmit = async (data:WriteBlogType) => {
-    console.log(data);
-    
+  const onSubmit = async (data:CreateBlogType) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -65,38 +64,41 @@ const Write = () => {
         </section>
 
         <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <JoditEditor
-              ref={editor}
-              value={field.value}
-              onBlur={(newContent) => field.onChange(newContent)}
-              config={{
-                theme: 'midnight',
-                readonly: false,
-                height: 400,
-                toolbarSticky: false,
-                iframe: false,
-                toolbarButtonSize: 'middle',
-                enter: 'p', 
-                buttons: [
-                  'bold', 'italic', 'underline', '|',
-                  'ul', 'ol', '|',
-                  'font', 'fontsize', 'brush', 'paragraph', '|',
-                  'align', 'undo', 'redo', '|',
-                  'hr', 'link', 'image', 'video', '|'
-                ],
-                uploader: {
-                  insertImageAsBase64URI: true,
-                },
-                showCharsCounter: false,
-                showWordsCounter: false,
-                showXPathInStatusbar: false,
-              }}
-            />
-          )}
-        />
+  name="description"
+  control={control}
+  render={({ field }) => (
+    <div className="rounded-xl overflow-hidden border border-[#2a2a2a] bg-[#111]">
+      <JoditEditor
+        ref={editor}
+        value={field.value}
+        onBlur={(newContent) => field.onChange(newContent)}
+        config={{
+          theme: 'midnight',
+          readonly: false,
+          height: 400,
+          toolbarSticky: false,
+          iframe: false,
+          toolbarButtonSize: 'middle',
+          enter: 'p',
+          buttons: [
+            'bold', 'italic', 'underline', '|',
+            'ul', 'ol', '|',
+            'font', 'fontsize', 'brush', 'paragraph', '|',
+            'align', 'undo', 'redo', '|',
+            'hr', 'link', 'image', 'video', '|',
+          ],
+          uploader: {
+            insertImageAsBase64URI: true,
+          },
+          showCharsCounter: false,
+          showWordsCounter: false,
+          showXPathInStatusbar: false,
+        }}
+      />
+    </div>
+  )}
+/>
+
 
         <Controller
           name="thumbnail"

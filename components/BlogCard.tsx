@@ -12,15 +12,14 @@ const BlogCard = (data:BlogType) => {
 
   return (
     <div className="bg-[#111] border border-[#2a2a2a] rounded-xl overflow-hidden transition duration-300 hover:scale-[1.02] flex flex-col">
-      {/* <img src={data.thumbnail} alt={data.title} className="w-full h-48 object-cover" /> */}
       <Image
-  src={data.thumbnail}
-  alt={data.title}
-  width={400}
-  height={200}
-  className="w-full h-48 object-cover"
-  priority={false} // or true for above-the-fold content
-/>
+      src={data.thumbnail}
+      alt={data.title}
+      width={400}
+      height={200}
+      className="w-full h-48 object-cover"
+      priority
+    />
 
       <div className="p-4 flex flex-col flex-grow">
         <p className="text-sm text-gray-400 mb-1">

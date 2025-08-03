@@ -5,6 +5,7 @@ import { FiShare2 } from "react-icons/fi";
 import toast from 'react-hot-toast'
 import readingTime from 'reading-time';
 import { BlogType } from 'types/BlogType';
+import Image from 'next/image';
 type BlogMetaDataProps = Pick<BlogType, 'author' | 'createdAt' | 'description'>;
 
 const BlogMetaData = ({author, createdAt, description}:BlogMetaDataProps) => {
@@ -19,11 +20,15 @@ const BlogMetaData = ({author, createdAt, description}:BlogMetaDataProps) => {
   return (
     <div className="flex items-center gap-2 text-sm text-white/80 mb-4  ">
       {author.image ? (
-        <img
-          src={author.image}
-          alt="Author"
-          className="w-8 h-8 rounded-full object-cover"
-        />
+        <Image
+        src={author.image}
+        alt="Author"
+        width={32}
+        height={32}
+        className="rounded-full object-cover"
+        priority
+      />
+
       ) : (
         <FaUserCircle className="w-8 h-8" />
       )}

@@ -4,6 +4,7 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import { ImSpinner2 } from 'react-icons/im';
 import axios from 'axios';
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 const ThumbnailUpload = ({ field }:any) => {
   const [loading, setLoading] = useState(false);
@@ -71,11 +72,14 @@ const ThumbnailUpload = ({ field }:any) => {
       ) : (
         <div className="flex justify-center mt-2">
           <div className="relative w-fit">
-            <img
-              src={field.value}
-              alt="Thumbnail Preview"
-              className="rounded-lg border border-[#2a2a2a] max-w-full h-auto"
-            />
+            <Image
+            src={field.value}
+            alt="Thumbnail Preview"
+            className="rounded-lg border border-[#2a2a2a] max-w-full h-auto"
+            width={500} 
+            height={300} 
+            style={{ height: 'auto', width: '100%' }}
+          />
             <button
               onClick={handleRemove}
               className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded cursor-pointer"

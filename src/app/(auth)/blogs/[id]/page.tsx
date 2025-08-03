@@ -1,19 +1,21 @@
 import { prisma } from '../../../../../lib/prisma'
-import { notFound } from 'next/navigation' // 1. Import notFound
+import { notFound } from 'next/navigation' 
 import Image from 'next/image';
 import BlogMetaData from 'components/BlogMetaData';
 
-export default async function blogDetails({ params }: { params: { id: string } }) {
+export default async function blogDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const numericId = Number(id);
+if (isNaN(numericId)) return notFound();
   const blog = await prisma.blogs.findUnique({
-    where: { id: Number(id) },
+    where: { id: Number(numericId) },
     include: {
       author: true,
     },
   });
 
   if (!blog) {
-    notFound(); 
+    return notFound(); 
   }
 
   return (
@@ -22,7 +24,7 @@ export default async function blogDetails({ params }: { params: { id: string } }
       <div className='text-white font-serif text-xl mt-4'>{blog.subtitle}</div>
       <div className="mt-4">
         <BlogMetaData author={{name: blog.author.name ?? 'anonymous',
-    image: blog.author.image ?? '/default-avatar.png'}} createdAt={blog.createdAt} description={blog.description} />
+    image: blog.author.image!, id:blog.author.id}} createdAt={blog.createdAt} description={blog.description} />
       </div>
       <Image
         src={blog.thumbnail}
@@ -30,6 +32,7 @@ export default async function blogDetails({ params }: { params: { id: string } }
         className="w-full mt-6 rounded-lg"
         width={1072}
         height={603}
+        priority
       />
       <div
         className="prose prose-invert max-w-none text-white text-xl mt-6 leading-relaxed"

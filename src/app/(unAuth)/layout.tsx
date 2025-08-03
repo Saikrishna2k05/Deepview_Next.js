@@ -33,9 +33,10 @@ export default function RootLayout({
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-black`}>
       <SessionWrapper>
       <TanstackProvider >
-                <Toaster 
+      <Toaster 
         position="bottom-right"
         toastOptions={{
+          duration:2000,
           style: {
             background: '#111',
             color: '#fff',
