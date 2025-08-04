@@ -6,8 +6,8 @@ export type BlogType= {
   description:string,
   author:{
     id: string,
-    name:string,
-    image:string
+    name:string | null,
+    image:string | null
   },
   category:string,
   createdAt: Date,

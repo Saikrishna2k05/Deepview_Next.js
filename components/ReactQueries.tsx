@@ -1,9 +1,10 @@
 'use client'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createPost, deletePost, getPosts } from "./QueryFunctions";
+import { createPost, deletePost, getPosts, updatePost } from "./QueryFunctions";
 import { CreateBlogType } from "types/CreateBlogType";
 import { BlogType } from "types/BlogType";
 import toast from 'react-hot-toast';
+import { UpdateBlogType } from "types/UpdateBlogType";
 
 export function usePosts() {
   return useQuery({ queryKey: ['blogs'], queryFn: getPosts });
@@ -18,11 +19,6 @@ export function useCreatePosts() {
       queryClient.setQueryData(['blogs'], (old: BlogType[] | undefined) => {
         return old ? [...old, newBlog] : [newBlog];
       });
-      toast.success('Blog published successfully');
-    },
-    onError: (error: any) => {
-      const message = error?.response?.data?.message || error.message || 'Something went wrong';
-      toast.error(`Failed to publish blog: ${message}`);
     },
   });
 }
@@ -40,3 +36,17 @@ export function useDeletePost() {
     },
   });
 }
+
+export function useUpdatePost()
+{
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn:(blog:UpdateBlogType)=> updatePost(blog),
+    onSuccess:(updatedBlog)=>{
+      queryClient.setQueryData(['blogs'],(old:BlogType[])=>{
+          return old.map((blog)=>blog.id===updatedBlog.id?updatedBlog:blog);          
+      })
+    }
+  })
+}
+

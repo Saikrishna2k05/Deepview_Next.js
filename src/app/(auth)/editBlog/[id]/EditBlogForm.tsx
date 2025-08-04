@@ -5,25 +5,26 @@ import { useForm, Controller } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreatePosts } from 'components/ReactQueries';
+import { useUpdatePost } from 'components/ReactQueries';
 import ThumbnailUpload from 'components/ThumbnailUpload';
 import toast from 'react-hot-toast';
-import { CreateBlogType } from 'types/CreateBlogType';
+import { UpdateBlogType } from 'types/UpdateBlogType';
 
 const JoditEditor = dynamic(() => import('jodit-react'), {
   ssr: false,
 });
 
 const blogSchema = z.object({
+  id: z.number(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().min(1, 'Subtitle is required'),
-  description: z.any(),
+  description: z.string(),
   thumbnail: z.string().min(1, 'Thumbnail is required'),
   category: z.string().min(1, 'Category is required'),
 });
 
-const EditBlogForm = ({ initialData }: { initialData: CreateBlogType }) => {
-  const { mutateAsync } = useCreatePosts();
+const EditBlogForm = ({ initialData }: { initialData: UpdateBlogType }) => {
+  const { mutateAsync } = useUpdatePost();
   const editor = useRef(null);
 
   const {
@@ -37,22 +38,23 @@ const EditBlogForm = ({ initialData }: { initialData: CreateBlogType }) => {
     resolver: zodResolver(blogSchema),
   });
 
-  const onSubmit = async (data: CreateBlogType) => {
-    try {      
-      if(data.description==="<p><br></p>" ||  data.description===undefined)
+  const onSubmit = async (data: UpdateBlogType) => {
+    try {
+      if(data.description==="<p><br></p>")
       {
         return toast.error("Description required");
       }
       await mutateAsync({
+        id: data.id,
         title: data.title,
         subtitle: data.subtitle,
         thumbnail: data.thumbnail,
         description: data.description,
         category: data.category,
       });
-      toast.success('Blog created successfully');
+      toast.success('Blog updated successfully');
     } catch (err) {
-      toast.error("Couldn't create Blog");
+      toast.error("Couldn't update Blog");
     }
   };
 

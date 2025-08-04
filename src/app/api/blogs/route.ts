@@ -3,6 +3,7 @@ import {prisma} from '../../../../lib/prisma'
 import { CreateBlogType } from "types/CreateBlogType";
 import { auth } from "@/app/auth";
 
+
 export async function GET(req: NextRequest)
 {
     try
@@ -92,3 +93,4 @@ catch(err)
     },{status:400})
 }
 }
+

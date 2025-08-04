@@ -23,7 +23,7 @@ const BlogCard = (data:BlogType) => {
 
       <div className="p-4 flex flex-col flex-grow">
         <p className="text-sm text-gray-400 mb-1">
-          By {data.author.name} | {data.category} | {formattedDate}
+          By {data.author?.name ?? 'Unknown'} | {data.category} | {formattedDate}
         </p>
         <h2 className="text-white font-semibold text-lg mb-2">{data.title}</h2>
         <p className="text-gray-400 text-sm mb-4">{data.subtitle}</p>

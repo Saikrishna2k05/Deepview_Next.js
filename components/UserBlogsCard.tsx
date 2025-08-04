@@ -23,7 +23,6 @@ const UserBlogsCard = ({
     const {mutateAsync}=useDeletePost();
     function editHandler(id:number)
     {
-        console.log("Edit");
         router.push(`/editBlog/${id}`) 
     }
     function deleteHandler(id:number)

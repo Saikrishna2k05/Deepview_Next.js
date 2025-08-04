@@ -23,7 +23,7 @@ if (isNaN(numericId)) return notFound();
       <div className='text-white font-extrabold text-3xl'>{blog.title}</div>
       <div className='text-white font-serif text-xl mt-4'>{blog.subtitle}</div>
       <div className="mt-4">
-        <BlogMetaData author={{name: blog.author.name ?? 'anonymous',
+        <BlogMetaData author={{name: blog.author?.name ?? 'anonymous',
     image: blog.author.image!, id:blog.author.id}} createdAt={blog.createdAt} description={blog.description} />
       </div>
       <Image

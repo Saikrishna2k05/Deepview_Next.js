@@ -19,7 +19,7 @@ const BlogMetaData = ({author, createdAt, description}:BlogMetaDataProps) => {
 
   return (
     <div className="flex items-center gap-2 text-sm text-white/80 mb-4  ">
-      {author.image ? (
+      {author?.image ? (
         <Image
         src={author.image}
         alt="Author"
